@@ -36,7 +36,7 @@ function commerce_purchase_order_rules_action_info() {
     'provides' => array(
       'issue_po_response' => array(
         'type' => 'commerce_purchase_order_issue_po_response',
-        'label' => t('charge Card Response'),
+        'label' => t('issue PO Response'),
         'save' => FALSE,
       ),
     ),
