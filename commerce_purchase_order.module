@@ -249,3 +249,33 @@ function commerce_purchase_order_number_from_order_id($order_id) {
     return '';
   }
 }
+
+/**
+ * Returns the list of all PO payment method instances.
+ */
+function commerce_purchase_order_payment_method_instances() {
+  $instance_ids = array();
+
+  // load all rules.
+  $rules_configs = rules_config_load_multiple(FALSE);
+
+  // find all rules with an action to enable PO payment method.
+  foreach ($rules_configs as $rule_name => $rule) {
+    // Only rules and sub-types have actions.
+    if (!($rule instanceof Rule)) {
+      continue;
+    }
+    foreach ($rule->actions() as $action) {
+      // skip any actions that are not simple rules actions, ie loops
+      if (!($action instanceof RulesAction)) {
+        continue;
+      }
+      if ($action->getElementName() == 'commerce_payment_enable_commerce_purchase_order') {
+        $instance_ids[] = commerce_payment_method_instance_id('commerce_purchase_order', $rule);
+        continue 2; // skip to next rule
+      }
+    }
+  }
+
+  return $instance_ids;
+}
