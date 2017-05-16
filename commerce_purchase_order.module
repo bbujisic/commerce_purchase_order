@@ -242,7 +242,6 @@ function commerce_purchase_order_number_from_order_id($order_id) {
 
 /**
  * Returns the list of all PO payment method instances.
- * @todo: Cache.
  */
 function commerce_purchase_order_payment_method_instances() {
   $instance_ids = array();

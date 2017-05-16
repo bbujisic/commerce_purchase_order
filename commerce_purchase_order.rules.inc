@@ -49,7 +49,6 @@ function commerce_purchase_order_rules_action_info() {
 }
 
 function commerce_purchase_order_rules_issue_po_action($order, $charge = NULL, $po_number = NULL, $forced_instance_id = NULL) {
-  // @todo: Probably useless.
   $response = array(
     'status' => FALSE,
     'code' => 'insufficient',
