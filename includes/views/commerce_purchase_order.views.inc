@@ -14,6 +14,10 @@ function commerce_purchase_order_views_data() {
       'left_field' => 'order_id',
       'field' => 'order_id',
     ),
+    'commerce_payment_transaction' => array(
+      'left_field' => 'transaction_id',
+      'field' => 'transaction_id',
+    ),
   );
   $data['commerce_purchase_order']['po_number'] = array(
     'title' => t('PO number'),
