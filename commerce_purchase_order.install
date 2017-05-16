@@ -68,12 +68,14 @@ function commerce_purchase_order_update_7001() {
     $message_variables = unserialize($transaction['message_variables']);
     if (isset($message_variables['@po_number'])) {
       $transaction_id = $transaction['transaction_id'];
+      $order_id = $transaction['order_id'];
       $po_number = $message_variables['@po_number'];
       db_update('commerce_purchase_order')
         ->fields(array(
           'transaction_id' => $transaction_id,
         ))
         ->condition('po_number', $po_number, '=')
+        ->condition('order_id', $order_id, '=')
         ->execute();
     }
   }
