@@ -279,3 +279,36 @@ function commerce_purchase_order_payment_method_instances() {
 
   return $instance_ids;
 }
+
+/**
+ * Implements hook_action_info().
+ */
+function commerce_purchase_order_action_info() {
+  return array(
+    'commerce_purchase_order_validate_action' => array(
+      'type' => 'commerce_payment_transaction',
+      'label' => t('Validate purchase orders'),
+      'configurable' => FALSE,
+      'behavior' => array('changes_property'),
+    ),
+  );
+}
+
+/**
+ * Change the purchase order transaction status to success.
+ *
+ * @param object $transaction
+ */
+function commerce_purchase_order_validate_action($transaction) {
+  if ($transaction->payment_method != 'commerce_purchase_order') {
+    drupal_set_message(t('Transaction %t is not purchase order and could not be validated.', array('%t' => $transaction->transaction_id)), 'warning');
+    return;
+  }
+  if ($transaction->status == COMMERCE_PAYMENT_STATUS_SUCCESS) {
+    drupal_set_message(t('Transaction %t skipped.', array('%t' => $transaction->transaction_id)), 'warning');
+    return;
+  }
+
+  $transaction->status = COMMERCE_PAYMENT_STATUS_SUCCESS;
+  commerce_payment_transaction_save($transaction);
+}
