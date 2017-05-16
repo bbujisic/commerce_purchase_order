@@ -206,6 +206,7 @@ function commerce_purchase_order_transaction($payment_method, $order, $charge, $
   $order_id = $order->order_id;
   db_insert('commerce_purchase_order')
     ->fields(array(
+      'transaction_id' => $transaction->transaction_id,
       'order_id' => $order_id,
       'po_number' => $po_number
     ))
