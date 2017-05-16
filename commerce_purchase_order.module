@@ -206,12 +206,22 @@ function commerce_purchase_order_transaction($payment_method, $order, $charge, $
   $order_id = $order->order_id;
   db_insert('commerce_purchase_order')
     ->fields(array(
+      'transaction_id' => $transaction->transaction_id,
       'order_id' => $order_id,
       'po_number' => $po_number
     ))
     ->execute();
 }
 
+/**
+ * Implements hook_commerce_payment_transaction_delete().
+ */
+function commerce_purchase_order_commerce_payment_transaction_delete($transaction) {
+  // Delete purchase order when transaction was deleted.
+  db_delete('commerce_purchase_order')
+    ->condition('transaction_id', $transaction->transaction_id)
+    ->execute();
+}
 
 /**
  * Implements hook_views_api().
